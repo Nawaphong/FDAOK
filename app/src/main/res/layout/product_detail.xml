@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/header_text"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="@string/product_header_label"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center_horizontal"
+        android:textColor="@color/white"
+        android:textSize="20dp"/>
+
+<!--    Detail-->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/cncnm_label"
+        android:background="@drawable/topic_header_corner"
+        android:gravity="center_horizontal"
+        android:textColor="@color/white"
+        android:textSize="16dp"/>
+
+    <TextView
+        android:id="@+id/cncnm_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="16dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/typepro_label"
+        android:background="@drawable/topic_header_corner"
+        android:gravity="center_horizontal"
+        android:textColor="@color/white"
+        android:textSize="16dp"/>
+
+    <TextView
+        android:id="@+id/typepro_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="16dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lcnno_label"
+        android:background="@drawable/topic_header_corner"
+        android:gravity="center_horizontal"
+        android:textColor="@color/white"
+        android:textSize="16dp"/>
+
+    <TextView
+        android:id="@+id/lcnno_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:gravity="start"
+        android:textSize="16dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/productha_label"
+        android:background="@drawable/topic_header_corner"
+        android:gravity="center_horizontal"
+        android:textColor="@color/white"
+        android:textSize="16dp"/>
+
+    <TextView
+        android:id="@+id/productha_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="16dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/produceng_label"
+        android:background="@drawable/topic_header_corner"
+        android:gravity="center_horizontal"
+        android:textColor="@color/white"
+        android:textSize="16dp"/>
+
+    <TextView
+        android:id="@+id/produceng_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="16dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/licen_label"
+        android:background="@drawable/topic_header_corner"
+        android:gravity="center_horizontal"
+        android:textColor="@color/white"
+        android:textSize="16dp"/>
+
+    <TextView
+        android:id="@+id/licen_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="16dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/thanm_label"
+        android:background="@drawable/topic_header_corner"
+        android:gravity="center_horizontal"
+        android:textColor="@color/white"
+        android:textSize="16dp"/>
+
+    <TextView
+        android:id="@+id/thanm_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="16dp"/>
+
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/Addr_label"-->
+<!--        android:background="@drawable/topic_header_corner"-->
+<!--        android:gravity="center_horizontal"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="16dp"/>-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/Addr_txt"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textSize="16dp"/>-->
+
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/NewCode_label"-->
+<!--        android:background="@drawable/topic_header_corner"-->
+<!--        android:gravity="center_horizontal"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="16dp"/>-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/NewCode_txt"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textSize="16dp"/>-->
+
+    <Button
+        android:id="@+id/close_btn"
+        android:text="@string/close_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

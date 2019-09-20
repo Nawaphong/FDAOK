@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="header_label">20</dimen>
+    <dimen name="topic_label">16</dimen>
+    <dimen name="topic_content_label">16</dimen>
+</resources>

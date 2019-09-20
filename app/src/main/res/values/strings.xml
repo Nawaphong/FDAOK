@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">ตรวจสอบเลขที่ อย.</string>
+    <string name="gallery_label">Gallery</string>
+    <string name="history_label">History</string>
+    <string name="close_label">Close</string>
+    <string name="product_header_label">Product Detail</string>
+
+    <string name="cncnm_label">สถานะ</string>
+    <string name="typepro_label">ประเภทผลิตภัณฑ์</string>
+    <string name="lcnno_label">ใบสำคัญ/เลขที่อนุญาต</string>
+    <string name="productha_label">ชื่อผลิตภัณฑ์ (TH)</string>
+    <string name="produceng_label">ชื่อผลิตภัณฑ์ (EN)</string>
+    <string name="licen_label">ชื่อผู้รับอนุญาต</string>
+    <string name="thanm_label">สถานที่ผลิต</string>
+    <string name="Addr_label">ที่อยู่สถานที่ผลิต</string>
+    <string name="NewCode_label">Newcode</string>
+</resources>

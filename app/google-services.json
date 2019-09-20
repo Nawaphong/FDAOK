@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "841690096286",
+    "firebase_url": "https://fdaok-1dc50.firebaseio.com",
+    "project_id": "fdaok-1dc50",
+    "storage_bucket": "fdaok-1dc50.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:841690096286:android:ddeb85521dc7a35742918f",
+        "android_client_info": {
+          "package_name": "com.cdg.fdaok"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "841690096286-vrjebnh68b8f8ei1pd6p0qnlebhdhph7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQg9t6IApHRTO6cFj1Yx7XZP8yg0odqPc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "841690096286-vrjebnh68b8f8ei1pd6p0qnlebhdhph7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
