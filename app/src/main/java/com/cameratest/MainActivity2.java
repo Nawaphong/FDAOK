@@ -42,6 +42,8 @@ import com.otaliastudios.cameraview.PictureResult;
 import com.otaliastudios.cameraview.VideoResult;
 import com.otaliastudios.cameraview.frame.Frame;
 import com.otaliastudios.cameraview.frame.FrameProcessor;
+import com.otaliastudios.cameraview.gesture.Gesture;
+import com.otaliastudios.cameraview.gesture.GestureAction;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -81,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
         camera = findViewById(R.id.camera);
         camera.setLifecycleOwner(this);
+        camera.mapGesture(Gesture.TAP, GestureAction.AUTO_FOCUS);
+        camera.mapGesture(Gesture.PINCH, GestureAction.ZOOM);
         b1 = (Button)findViewById(R.id.takepic);
         b2 = (Button)findViewById(R.id.vbmap);
         b3 = (Button)findViewById(R.id.toggleframeproc);
