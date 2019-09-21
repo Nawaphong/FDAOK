@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         FirebaseVisionImage image = FirebaseVisionImage.fromByteArray(frame.getData(), extractFrameMetadata(frame));
                         ////AuthResult result = Tasks.await(firebaseDetector.detectInImage(image));
-                        LOG.e("firebase BItMap ByteCount : ", image.getBitmap().getAllocationByteCount());
+                        ////LOG.e("firebase BItMap ByteCount : ", image.getBitmap().getAllocationByteCount());
                     }
                 }
             }
@@ -339,7 +339,7 @@ public class MainActivity extends AppCompatActivity {
                     b3.setText("to");
                 else
                     b3.setText("tf");
-                Log.v("CameraActivity", "Orientation = 90");
+                ////Log.v("CameraActivity", "Orientation = 90");
                 break;
             case ORIENTATION_LANDSCAPE_NORMAL:
                 //mSnapButton.setImageResource(android.R.drawable.ic_menu_camera);
@@ -353,7 +353,7 @@ public class MainActivity extends AppCompatActivity {
                     b3.setText("toggle on");
                 else
                     b3.setText("toggle off");
-                Log.v("CameraActivity", "Orientation = 0");
+                ////Log.v("CameraActivity", "Orientation = 0");
                 break;
             case ORIENTATION_PORTRAIT_INVERTED:
                 //mSnapButton.setImageDrawable(getRotatedImage(android.R.drawable.ic_menu_camera, 90));
@@ -367,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
                     b3.setText("to");
                 else
                     b3.setText("tf");
-                Log.v("CameraActivity", "Orientation = 270");
+                ////Log.v("CameraActivity", "Orientation = 270");
                 break;
             case ORIENTATION_LANDSCAPE_INVERTED:
                 //mSnapButton.setImageDrawable(getRotatedImage(android.R.drawable.ic_menu_camera, 180));
@@ -381,7 +381,7 @@ public class MainActivity extends AppCompatActivity {
                     b3.setText("toggle on");
                 else
                     b3.setText("toggle off");
-                Log.v("CameraActivity", "Orientation = 180");
+                ////Log.v("CameraActivity", "Orientation = 180");
                 break;
         }
     }
