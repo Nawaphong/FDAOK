@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -12,13 +15,19 @@ import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
+import android.hardware.SensorManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
+import android.view.Display;
+import android.view.OrientationEventListener;
+import android.view.Surface;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
@@ -53,6 +62,15 @@ public class MainActivity extends AppCompatActivity {
     private final static boolean DECODE_BITMAP = false;
     private final static CameraLogger LOG = CameraLogger.create("MyApp");
 
+    private OrientationEventListener mOrientationEventListener;
+    private int mOrientation =  -1;
+
+    private static final int ORIENTATION_PORTRAIT_NORMAL =  1;
+    private static final int ORIENTATION_PORTRAIT_INVERTED =  2;
+    private static final int ORIENTATION_LANDSCAPE_NORMAL =  3;
+    private static final int ORIENTATION_LANDSCAPE_INVERTED =  4;
+
+    @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             b3.setText("toggle on");
         else
             b3.setText("toggle off");
-        ////setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR | ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR | ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         camera.addFrameProcessor(new FrameProcessor() {
             private long lastTime = System.currentTimeMillis();
             @Override
@@ -189,10 +207,21 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = getSharedPreferences("com.camtest", MODE_PRIVATE).edit();
                 editor.putBoolean("toggle_fproc", toggle_fproc);
                 editor.commit();
-                if(toggle_fproc)
-                    b3.setText("toggle on");
+                String to = "";
+                String tf = "";
+                if(mOrientation == ORIENTATION_PORTRAIT_INVERTED || mOrientation == ORIENTATION_PORTRAIT_NORMAL) {
+                    to = "to";
+                    tf = "tf";
+                }
                 else
-                    b3.setText("toggle off");
+                {
+                    to = "toggle on";
+                    tf = "toggle off";
+                }
+                if(toggle_fproc)
+                    b3.setText(to);
+                else
+                    b3.setText(tf);
             }
         });
     }
@@ -200,12 +229,70 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         camera.open();
+        if (mOrientationEventListener == null) {
+            mOrientationEventListener = new OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL) {
+                @Override
+                public void onOrientationChanged(int orientation) {
+
+                    // determine our orientation based on sensor response
+                    int lastOrientation = mOrientation;
+
+                    Display display = ((WindowManager)getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
+
+                    if (display.getOrientation() == Surface.ROTATION_0) {   // landscape oriented devices
+                        if (orientation >= 315 || orientation < 45) {
+                            if (mOrientation != ORIENTATION_LANDSCAPE_NORMAL) {
+                                mOrientation = ORIENTATION_LANDSCAPE_NORMAL;
+                            }
+                        } else if (orientation < 315 && orientation >= 225) {
+                            if (mOrientation != ORIENTATION_PORTRAIT_INVERTED) {
+                                mOrientation = ORIENTATION_PORTRAIT_INVERTED;
+                            }
+                        } else if (orientation < 225 && orientation >= 135) {
+                            if (mOrientation != ORIENTATION_LANDSCAPE_INVERTED) {
+                                mOrientation = ORIENTATION_LANDSCAPE_INVERTED;
+                            }
+                        } else if (orientation <135 && orientation > 45) {
+                            if (mOrientation != ORIENTATION_PORTRAIT_NORMAL) {
+                                mOrientation = ORIENTATION_PORTRAIT_NORMAL;
+                            }
+                        }
+                    } else {  // portrait oriented devices
+                        if (orientation >= 315 || orientation < 45) {
+                            if (mOrientation != ORIENTATION_PORTRAIT_NORMAL) {
+                                mOrientation = ORIENTATION_PORTRAIT_NORMAL;
+                            }
+                        } else if (orientation < 315 && orientation >= 225) {
+                            if (mOrientation != ORIENTATION_LANDSCAPE_NORMAL) {
+                                mOrientation = ORIENTATION_LANDSCAPE_NORMAL;
+                            }
+                        } else if (orientation < 225 && orientation >= 135) {
+                            if (mOrientation != ORIENTATION_PORTRAIT_INVERTED) {
+                                mOrientation = ORIENTATION_PORTRAIT_INVERTED;
+                            }
+                        } else if (orientation <135 && orientation > 45) {
+                            if (mOrientation != ORIENTATION_LANDSCAPE_INVERTED) {
+                                mOrientation = ORIENTATION_LANDSCAPE_INVERTED;
+                            }
+                        }
+                    }
+
+                    if (lastOrientation != mOrientation) {
+                        changeRotation(mOrientation, lastOrientation,b1,b2,b3);
+                    }
+                }
+            };
+        }
+        if (mOrientationEventListener.canDetectOrientation()) {
+            mOrientationEventListener.enable();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         camera.close();
+        mOrientationEventListener.disable();
     }
 
     @Override
@@ -221,4 +308,98 @@ public class MainActivity extends AppCompatActivity {
                 .setRotation(frame.getRotation() / 90)
                 .build();
     }
+    /**
+     * Performs required action to accommodate new orientation
+     * @param orientation
+     * @param lastOrientation
+     */
+    private void changeRotation(int orientation, int lastOrientation,Button b1,Button b2,Button b3) {
+        switch (orientation) {
+            case ORIENTATION_PORTRAIT_NORMAL:
+                //mSnapButton.setImageDrawable(getRotatedImage(android.R.drawable.ic_menu_camera, 270));
+                //mBackButton.setImageDrawable(getRotatedImage(android.R.drawable.ic_menu_revert, 270));
+                ObjectAnimator.ofFloat(b1, "rotation", 270).start();
+                ObjectAnimator.ofFloat(b2, "rotation",  270).start();
+                ObjectAnimator.ofFloat(b3, "rotation",  270).start();
+                //RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                //params.setMargins(20,20,20,20);
+
+                //RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)b1.getLayoutParams();
+                //params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,RelativeLayout.TRUE);
+                //params.addRule(RelativeLayout.ALIGN_PARENT_LEFT,0);
+                //params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,0);
+                //RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams)b2.getLayoutParams();
+                //params2.addRule(RelativeLayout.ALIGN_PARENT_LEFT,RelativeLayout.TRUE);
+                //b1.setLayoutParams(params);
+                //b2.setLayoutParams(params2);
+                //b3.setLayoutParams(params);
+                b1.setText("p");
+                b2.setText("b");
+                if(toggle_fproc)
+                    b3.setText("to");
+                else
+                    b3.setText("tf");
+                Log.v("CameraActivity", "Orientation = 90");
+                break;
+            case ORIENTATION_LANDSCAPE_NORMAL:
+                //mSnapButton.setImageResource(android.R.drawable.ic_menu_camera);
+                //mBackButton.setImageResource(android.R.drawable.ic_menu_revert);
+                ObjectAnimator.ofFloat(b1, "rotation",  0).start();
+                ObjectAnimator.ofFloat(b2, "rotation",  0).start();
+                ObjectAnimator.ofFloat(b3, "rotation",  0).start();
+                b1.setText("take picture");
+                b2.setText("view bitmap");
+                if(toggle_fproc)
+                    b3.setText("toggle on");
+                else
+                    b3.setText("toggle off");
+                Log.v("CameraActivity", "Orientation = 0");
+                break;
+            case ORIENTATION_PORTRAIT_INVERTED:
+                //mSnapButton.setImageDrawable(getRotatedImage(android.R.drawable.ic_menu_camera, 90));
+                //mBackButton.setImageDrawable(getRotatedImage(android.R.drawable.ic_menu_revert, 90));
+                ObjectAnimator.ofFloat(b1, "rotation",  90).start();
+                ObjectAnimator.ofFloat(b2, "rotation",  90).start();
+                ObjectAnimator.ofFloat(b3, "rotation",  90).start();
+                b1.setText("p");
+                b2.setText("b");
+                if(toggle_fproc)
+                    b3.setText("to");
+                else
+                    b3.setText("tf");
+                Log.v("CameraActivity", "Orientation = 270");
+                break;
+            case ORIENTATION_LANDSCAPE_INVERTED:
+                //mSnapButton.setImageDrawable(getRotatedImage(android.R.drawable.ic_menu_camera, 180));
+                //mBackButton.setImageDrawable(getRotatedImage(android.R.drawable.ic_menu_revert, 180));
+                ObjectAnimator.ofFloat(b1, "rotation",  180).start();
+                ObjectAnimator.ofFloat(b2, "rotation",  180).start();
+                ObjectAnimator.ofFloat(b3, "rotation",  180).start();
+                b1.setText("take picture");
+                b2.setText("view bitmap");
+                if(toggle_fproc)
+                    b3.setText("toggle on");
+                else
+                    b3.setText("toggle off");
+                Log.v("CameraActivity", "Orientation = 180");
+                break;
+        }
+    }
+
+    /**
+     * Rotates given Drawable
+     * @param drawableId    Drawable Id to rotate
+     * @param degrees       Rotate drawable by Degrees
+     * @return              Rotated Drawable
+     */
+    /*
+    private Drawable getRotatedImage(int drawableId, int degrees) {
+        Bitmap original = BitmapFactory.decodeResource(getResources(), drawableId);
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degrees);
+
+        Bitmap rotated = Bitmap.createBitmap(original, 0, 0, original.getWidth(), original.getHeight(), matrix, true);
+        return new BitmapDrawable(rotated);
+    }
+    */
 }
